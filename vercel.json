@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/Authentication/:path*",
+      "destination": "https://dev.apinetbo.bekindnetwork.com/api/Authentication/:path*"
+    },
+    {
+      "source": "/api/v1/:path*",
+      "destination": "https://dev.api.bekindnetwork.com/api/v1/:path*"
+    },
+    {
+      "source": "/((?!api/.*).*)",
+      "destination": "/index.html"
+    }
+  ]
+}

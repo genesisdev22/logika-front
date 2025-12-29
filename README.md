@@ -1,46 +1,52 @@
-# Getting Started with Create React App
+# Prueba Técnica Frontend - Logika
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Solución para la prueba técnica, implementando un dashboard administrativo para gestión de acciones (adaptado visualmente como "Categorías").
 
-## Available Scripts
+## Setup
 
-In the project directory, you can run:
+1.  **Instalar dependencias**:
 
-### `npm start`
+    ```bash
+    pnpm install
+    ```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+2.  **Variables de entorno**:
+    Copiar el archivo de ejemplo:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+    ```bash
+    cp .env.example .env
+    ```
 
-### `npm test`
+    _(Ya tiene las URLs base configuradas)_.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3.  **Correr el proyecto**:
+    ```bash
+    pnpm start
+    ```
+    Abre en `http://localhost:3000`.
 
-### `npm run build`
+## Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **React + TypeScript**: Base del proyecto.
+- **Redux Toolkit**: Para el manejo del estado global (auth y data).
+- **React Router**: Gestión de rutas públicas y privadas.
+- **Axios**: Comunicación HTTP e interceptores.
+- **Zod + React Hook Form**: Validación robusta de formularios.
+- **CSS Modules**: Estilos organizados por componente/funcionalidad.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Notas de Implementación y descubrimiento
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Durante el desarrollo tomé algunas decisiones para cumplir con los requerimientos y el diseño:
 
-### `npm run eject`
+1.  **Adapción Visual**:
+    Aunque el API maneja "Acciones" (`/actions`), la UI se construyó pensando en "Categorías" para ser fiel al diseño de Figma. Internamente, el servicio mapea los datos correctamente.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2.  **Manejo de Archivos**:
+    Para la creación, noté que el endpoint acepta `multipart/form-data`. Implementé la subida del `icon` (archivo) y el `color` (hex) respetando este formato, aunque el backend valida principalmente que el archivo exista.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3.  **Arquitectura**:
+    Separé el proyecto en `features` (lógica de negocio) y `components/ui` (presentacionales) para mantenerlo ordenado y escalable. Los estilos ahora viven en `src/styles` para no ensuciar los componentes.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## ✅ Tests Funcionales
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Dejé un checklist con las pruebas principales en `QA_CHECKLIST.md` que cubren el login, listado, paginación y creación.
