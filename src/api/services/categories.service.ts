@@ -2,6 +2,7 @@ import { createHttpClient } from "../http/httpClient";
 import { endpoints } from "../http/endpoints";
 import { env } from "../../utils/env";
 import type {
+  Category,
   CategoryListParams,
   CreateCategoryPayload,
 } from "../../features/categories/categories.types";
@@ -20,22 +21,20 @@ const categoriesClient = createHttpClient({
   },
 } as any);
 
-function mapCategory(
-  raw: any
-): import("../../features/categories/categories.types").Category {
+function mapCategory(raw: any): Category {
   return {
     id: raw.id,
     name: raw.name,
     description: raw.description,
     status: raw.status,
-    image: raw.icon, // API returns "icon", mapping to "image" property in our type
+    image: raw.icon,
     createdAt: raw.createdAt,
   };
 }
 
 export const categoriesService = {
   list: async (params: CategoryListParams) => {
-    const { pageNumber, pageSize, search } = params;
+    const { pageNumber, pageSize } = params;
 
     const { data } = await categoriesClient.get<RawListResponse>(
       endpoints.categoriesAdminList,
@@ -43,10 +42,6 @@ export const categoriesService = {
         params: {
           pageNumber,
           pageSize,
-          search,
-          q: search,
-          name: search,
-          keyword: search,
         },
       }
     );
@@ -69,7 +64,6 @@ export const categoriesService = {
   },
 
   create: async (payload: CreateCategoryPayload) => {
-    // If file exists, use FormData
     if (payload.file) {
       const formData = new FormData();
       formData.append("name", payload.name);
@@ -90,7 +84,6 @@ export const categoriesService = {
       return data;
     }
 
-    // Otherwise JSON
     const { data } = await categoriesClient.post(
       endpoints.categoriesAdminAdd,
       payload
